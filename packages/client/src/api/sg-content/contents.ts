@@ -22,20 +22,25 @@ export interface Content {
   content_hash: string | null
 }
 
+export interface ContentListResult {
+  data: Content[]
+  total: number
+}
+
 export async function listContents(filters?: {
   platform?: string
   source_type?: string
   category?: string
   limit?: number
   offset?: number
-}): Promise<Content[]> {
+}): Promise<ContentListResult> {
   const params = new URLSearchParams()
   if (filters) {
     Object.entries(filters).forEach(([k, v]) => { if (v !== undefined) params.set(k, String(v)) })
   }
   const query = params.toString()
-  const res = await request<{ data: Content[] }>(`/api/contents${query ? `?${query}` : ''}`)
-  return res.data
+  const res = await request<{ data: Content[]; total: number }>(`/api/contents${query ? `?${query}` : ''}`)
+  return { data: res.data, total: res.total }
 }
 
 export async function getContent(id: number): Promise<Content> {

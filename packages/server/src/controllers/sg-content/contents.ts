@@ -3,14 +3,14 @@ import * as svc from '../../services/sg-content/contents'
 
 export async function list(ctx: Context) {
   const { platform, source_type, category, limit, offset } = ctx.query
-  const contents = svc.listContents({
+  const result = svc.listContents({
     platform: platform as string,
     source_type: source_type as string,
     category: category as string,
     limit: limit ? parseInt(limit as string) : 50,
     offset: offset ? parseInt(offset as string) : 0,
   })
-  ctx.body = { data: contents }
+  ctx.body = { data: result.data, total: result.total }
 }
 
 export async function get(ctx: Context) {

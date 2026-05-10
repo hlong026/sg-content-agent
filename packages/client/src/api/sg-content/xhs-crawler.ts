@@ -25,13 +25,31 @@ export interface CategoryTrend {
   totalComments: number
 }
 
+export interface Competitor {
+  id: number
+  platform: string
+  account_id: string
+  account_name: string | null
+  account_url: string | null
+  category: string | null
+  notes: string | null
+  is_active: number
+  last_crawled_at: string | null
+  created_at: string
+}
+
 export async function getCrawlerStatus(): Promise<CrawlerStatus> {
   const res = await request<{ data: CrawlerStatus }>('/api/xhs/status')
   return res.data
 }
 
-export async function updateXhsCookie(cookies: string): Promise<void> {
-  await request('/api/xhs/cookie', {
+export async function getXhsCookie(): Promise<{ configured: boolean; value: string | null }> {
+  const res = await request<{ data: { configured: boolean; value: string | null } }>('/api/xhs/cookie')
+  return res.data
+}
+
+export async function updateXhsCookie(cookies: string): Promise<any> {
+  return request('/api/xhs/cookie', {
     method: 'POST',
     body: JSON.stringify({ cookies }),
   })
@@ -67,10 +85,14 @@ export async function batchCrawlDetails(limit?: number): Promise<{ updated: numb
   return res.data
 }
 
-export async function crawlAccount(userUrl: string, category?: string): Promise<CrawlResult> {
+export async function crawlAccount(params: {
+  user_url: string
+  category?: string
+  account_name?: string
+}): Promise<CrawlResult> {
   const res = await request<{ data: CrawlResult }>('/api/xhs/account', {
     method: 'POST',
-    body: JSON.stringify({ user_url: userUrl, category }),
+    body: JSON.stringify(params),
   })
   return res.data
 }
@@ -86,4 +108,28 @@ export async function getSearchKeywords(word: string): Promise<string[]> {
     body: JSON.stringify({ word }),
   })
   return res.data
+}
+
+// ─── 竞品管理 ──────────────────────────────────────────
+
+export async function listCompetitors(): Promise<Competitor[]> {
+  const res = await request<{ data: Competitor[] }>('/api/xhs/competitors')
+  return res.data
+}
+
+export async function addCompetitor(params: {
+  account_url: string
+  account_name?: string
+  category?: string
+  notes?: string
+}): Promise<Competitor> {
+  const res = await request<{ data: Competitor }>('/api/xhs/competitors', {
+    method: 'POST',
+    body: JSON.stringify(params),
+  })
+  return res.data
+}
+
+export async function deleteCompetitor(id: number): Promise<void> {
+  await request(`/api/xhs/competitors/${id}`, { method: 'DELETE' })
 }

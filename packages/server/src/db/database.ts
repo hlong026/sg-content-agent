@@ -153,9 +153,20 @@ export function initDatabase(): void {
       platform TEXT DEFAULT 'xiaohongshu',
       account_id TEXT NOT NULL,
       account_name TEXT,
+      account_url TEXT,
+      category TEXT,
       notes TEXT,
       is_active INTEGER DEFAULT 1,
+      last_crawled_at TEXT,
       created_at TEXT DEFAULT (datetime('now'))
+    );
+
+    -- 爬虫配置表（Cookie 等持久化配置）
+    CREATE TABLE IF NOT EXISTS crawler_config (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      key TEXT NOT NULL UNIQUE,
+      value TEXT NOT NULL,
+      updated_at TEXT DEFAULT (datetime('now'))
     );
 
     -- 发布队列表

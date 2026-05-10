@@ -29,7 +29,7 @@ export function listContents(filters: {
   category?: string
   limit?: number
   offset?: number
-}): Content[] {
+}): { data: Content[]; total: number } {
   const db = getDb()
   const conditions: string[] = []
   const params: any[] = []
@@ -51,9 +51,12 @@ export function listContents(filters: {
   const limit = filters.limit || 50
   const offset = filters.offset || 0
 
-  return db.prepare(
+  const total = (db.prepare(`SELECT COUNT(*) as c FROM contents ${where}`).get(...params) as any).c
+  const data = db.prepare(
     `SELECT * FROM contents ${where} ORDER BY crawled_at DESC LIMIT ? OFFSET ?`
   ).all(...params, limit, offset) as Content[]
+
+  return { data, total }
 }
 
 export function getContent(id: number): Content | undefined {
