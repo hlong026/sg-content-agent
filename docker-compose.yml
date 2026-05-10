@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "8649:8649"
+    environment:
+      - PORT=8649
+      - ADMIN_PASSWORD=admin123
+      - JWT_SECRET=change-this-in-production
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+    volumes:
+      - app_data:/root/.sg-content-agent
+
+volumes:
+  app_data:

@@ -1,0 +1,56 @@
+{
+  "name": "sg-content-agent",
+  "version": "0.1.0",
+  "description": "Singapore study abroad blogger content creation platform — AI-powered content planning, generation, and publishing agent",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
+    "dev:client": "vite --host",
+    "dev:server": "nodemon --signal SIGTERM --watch packages/server/src -e ts,tsx --exec TS_NODE_PROJECT=packages/server/tsconfig.json node -r ts-node/register packages/server/src/index.ts",
+    "build": "vue-tsc -b && vite build && tsc --noEmit -p packages/server/tsconfig.json && node scripts/build-server.mjs",
+    "preview": "NODE_ENV=production vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "better-sqlite3": "^11.7.0",
+    "chromadb": "^1.9.4",
+    "openai": "^4.77.0"
+  },
+  "devDependencies": {
+    "@koa/bodyparser": "^5.0.0",
+    "@koa/cors": "^5.0.0",
+    "@koa/router": "^15.4.0",
+    "@types/better-sqlite3": "^7.6.12",
+    "@types/koa": "^2.15.0",
+    "@types/koa__cors": "^5.0.0",
+    "@types/koa__router": "^12.0.5",
+    "@types/koa-send": "^4.1.6",
+    "@types/koa-static": "^4.0.4",
+    "@types/node": "^22.10.0",
+    "@vitejs/plugin-vue": "^5.2.1",
+    "@vue/tsconfig": "^0.7.0",
+    "concurrently": "^9.1.0",
+    "esbuild": "^0.24.0",
+    "koa": "^2.15.3",
+    "koa-send": "^5.0.1",
+    "koa-static": "^5.0.0",
+    "naive-ui": "^2.40.3",
+    "nodemon": "^3.1.7",
+    "pinia": "^2.3.0",
+    "pino": "^9.5.0",
+    "pino-pretty": "^13.0.0",
+    "sass": "^1.82.0",
+    "ts-node": "^10.9.2",
+    "typescript": "~5.7.2",
+    "vite": "^6.0.5",
+    "vitest": "^2.1.8",
+    "vue": "^3.5.13",
+    "vue-i18n": "^10.0.5",
+    "vue-router": "^4.5.0",
+    "vue-tsc": "^2.2.0"
+  }
+}
