@@ -16,7 +16,7 @@ const navItems = [
       { key: 'dashboard', label: '仪表盘', icon: '📊', path: '/dashboard' },
       { key: 'topics', label: '选题中心', icon: '📋', path: '/topics' },
       { key: 'content', label: '内容工坊', icon: '✍️', path: '/content' },
-      { key: 'collection', label: '数据采集', icon: '🔍', path: '/collection' },
+      { key: 'collection', label: '采集中心', icon: '🕷️', path: '/collection' },
     ],
   },
   {

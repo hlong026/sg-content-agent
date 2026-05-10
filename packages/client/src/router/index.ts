@@ -38,7 +38,7 @@ const router = createRouter({
     {
       path: '/collection',
       name: 'collection',
-      component: () => import('@/views/sg-content/CollectionView.vue'),
+      component: () => import('@/views/sg-content/CrawlerView.vue'),
     },
     {
       path: '/publishing',
