@@ -8,6 +8,7 @@ import { generatedContentRoutes } from './sg-content/generated-contents'
 import { dashboardRoutes } from './sg-content/dashboard'
 import { generationRoutes } from './sg-content/generation'
 import { publishingRoutes } from './sg-content/publishing'
+import { xhsCrawlerRoutes } from './xhs-crawler'
 import { requireAuth } from '../services/auth'
 
 export function registerRoutes(app: any) {
@@ -31,4 +32,5 @@ export function registerRoutes(app: any) {
   app.use(generatedContentRoutes.routes())
   app.use(generationRoutes.routes())
   app.use(publishingRoutes.routes())
+  app.use(xhsCrawlerRoutes.routes())
 }

@@ -11,8 +11,22 @@ services:
       - JWT_SECRET=change-this-in-production
       - OPENAI_API_KEY=${OPENAI_API_KEY}
       - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - XHS_API_URL=http://spider-xhs:5557
     volumes:
       - app_data:/root/.sg-content-agent
+    depends_on:
+      - spider-xhs
+
+  spider-xhs:
+    build: ./spider-xhs
+    ports:
+      - "5557:5557"
+    environment:
+      - XHS_API_PORT=5557
+      - XHS_COOKIES=${XHS_COOKIES:-}
+    volumes:
+      - spider_data:/app/data
 
 volumes:
   app_data:
+  spider_data:
